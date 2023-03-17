@@ -29,4 +29,27 @@ authRoutes.post("/auth/login", (req, res, next) => {
   })(req, res, next);
 });
 
+//----- Logout user
+authRoutes.post("/auth/logout", (req, res) => {
+  req.logout(err => {
+    if(err) console.log(err);
+    res.json({ success: true });
+  });
+});
+
+//----- Retrieve authenticated user
+authRoutes.get("/auth/user", (req, res) => {
+  if(req.user) {
+    res.json({
+      success: true,
+      user: req.user
+    });
+  } else {
+    res.json({
+      success: false,
+      message: "No active session"
+    });
+  }
+});
+
 module.exports = authRoutes;
